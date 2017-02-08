@@ -1,11 +1,23 @@
 angular.module('starter.controller', [])
-.controller('Tab1Ctrl', function($scope,Tab1Service,$ionicSlideBoxDelegate,$ionicTabsDelegate) {
+.controller('Tab1Ctrl', function($scope,$rootScope,Tab1Service,$ionicSlideBoxDelegate,$ionicTabsDelegate) {
   console.log('ok')
-  var items = Tab1Service.getClassify();
-  $scope.slides = items;
-  $scope.tabs = items;
+  // var imgUrl = "";
+  $rootScope.imgUrl = imgUrl;
+  var classify = Tab1Service.getClassify();
+  $scope.slides = classify;
+  $scope.tabs = classify;
 
   var slideIndex = 0;
+  Tab1Service.getList(classify[0].url,1,20).then(function(response){
+    if (response.data.status) {
+      $scope.items = response.data.tngou;
+      console.log(response.data)
+    }
+  },function(error){
+    console.log(error)
+  })
+
+
   //当中间页签slidebox改变的时候，让顶部tabs也改变
   $scope.slideChanged =  function(index){
      $ionicTabsDelegate._instances[1].select(index);

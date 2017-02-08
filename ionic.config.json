@@ -1,9 +1,17 @@
 {
   "name": "myIonic",
   "app_id": "",
+  "proxies": [
+    {
+      "path": "/api", 
+      "proxyUrl": "http://www.tngou.net/api"
+    }
+  ],
   "gulpStartupTasks": [
     "sass",
-    "watch"
+    "watch",
+    "add-proxy",
+    "remove-proxy"
   ],
   "watchPatterns": [
     "www/**/*",

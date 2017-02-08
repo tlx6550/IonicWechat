@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
     .service('Tab1Service',function($http){
-        var domain =  "http://10.1.28.125:8100";
+        // var domain =  "http://10.1.28.125:8100";
         this.getClassify = function(){
             return [
             { name: '健康资讯', viewable: true, url: domain + '/info/list', page: 1, rows: 20 },
