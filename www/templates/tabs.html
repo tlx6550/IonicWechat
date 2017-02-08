@@ -1,14 +1,17 @@
-<ion-tabs class="tabs-icon-top tabs-color-active-balanced">
-    <ion-tab title="微信" icon-on="ion-ios-chatbubble" icon-off="ion-ios-chatbubble-outline" ui-sref="tab.message">
-        <ion-nav-view animation="slide-left-right" name="tab-message"></ion-nav-view>
-    </ion-tab>
-    <ion-tab title="通讯录" icon-on="ion-ios-people" icon-off="ion-ios-people-outline" ui-sref="tab.friends">
-        <ion-nav-view animation="slide-left-right" name="tab-friends"></ion-nav-view>
-    </ion-tab>
-    <ion-tab title="发现" icon-on="ion-ios-paperplane" icon-off="ion-ios-paperplane-outline" ui-sref="tab.find">
-        <ion-nav-view animation="slide-left-right" name="tab-find"></ion-nav-view>
-    </ion-tab>
-    <ion-tab title="我" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/setting">
-        <ion-nav-view animation="slide-left-right" name="tab-setting"></ion-nav-view>
-    </ion-tab>
+<ion-tabs delegate-handle="tabs" class="tabs-icon-top tabs-color-active-balanced">
+  <ion-tab title="健康" icon-off="ion-ios-pulse-strong" icon-on="ion-ios-pulse-strong" href="#/tab/tab1">
+    <ion-nav-view hide-nav-bar="true" name="tab1"></ion-nav-view>
+  </ion-tab>
+  <ion-tab title="医疗" icon-off="ion-ios-medkit" icon-on="ion-ios-medkit" href="#/tab/tab2">
+    <ion-nav-view hide-nav-bar="true" name="tab2"></ion-nav-view>
+  </ion-tab>
+  <ion-tab title="生活" icon-off="ion-coffee" icon-on="ion-coffee" href="#/tab/tab3">
+    <ion-nav-view hide-nav-bar="true" name="tab3"></ion-nav-view>
+  </ion-tab>
+  <ion-tab title="农业" icon-off="ion-leaf" icon-on="ion-leaf" href="#/tab/tab4">
+    <ion-nav-view hide-nav-bar="true" name="tab4"></ion-nav-view>
+  </ion-tab>
+  <ion-tab title="我" icon-off="ion-ios-person" icon-on="ion-ios-person" href="#/tab/account">
+    <ion-nav-view hide-nav-bar="true" name="tab-account"></ion-nav-view>
+  </ion-tab>
 </ion-tabs>

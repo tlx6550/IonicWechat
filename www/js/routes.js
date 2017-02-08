@@ -1,5 +1,5 @@
 //这里声明了一个模块, 名字叫wechat.routes, 等会要在app.js中注入这个模块, 才会生效
-angular.module('wechat', ['ionic','ui.router'])
+angular.module('appName', ['ionic','ui.router'])
  function config($stateProvider, $urlRouterProvider) {
     //默认状态是tab.message
     $urlRouterProvider.otherwise("/tab/message");
@@ -16,6 +16,7 @@ angular.module('wechat', ['ionic','ui.router'])
             views: {
                 'tab-message': {
                     templateUrl: 'templates/tab-message.html',
+                    controller: 'messageCtrl',
                 }
             }
         })
@@ -29,5 +30,5 @@ angular.module('wechat', ['ionic','ui.router'])
         })
 }
  angular
-.module('wechat')
+.module('appName')
 .config(['$stateProvider', '$urlRouterProvider', config]);

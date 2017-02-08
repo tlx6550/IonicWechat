@@ -1,0 +1,18 @@
+<ion-view view-title="健康"> 
+  <ion-content class="has-header">
+    <ion-slide-box show-pager="false" class="has-header" on-slide-changed="slideChanged($index)">
+      <ion-slide ng-repeat="slide in slides">
+        <div class="list">
+          <a ng-repeat="item in tabs" class="item item-thumbnail-left" href="#">
+            <img ng-src="img/demo.png" width="30" height="30" alt=""> 
+            <h2>title:{{slide.name}}</h2>
+            <p>description</p>
+          </a>
+        </div>
+      </ion-slide>
+    </ion-slide-box>
+  </ion-content> 
+  <ion-tabs class="tabs-striped tabs-top">
+    <ion-tab ng-repeat="item in tabs" on-select="selectedTab($index)" title="{{item.name}}"></ion-tab>
+  </ion-tabs> 
+</ion-view>
