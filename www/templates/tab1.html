@@ -1,19 +1,24 @@
 <ion-view view-title="健康">
-  <ion-content class="has-header">
-    <ion-slide-box show-pager="false" class="has-header" on-slide-changed="slideChanged($index)">
-      <ion-slide ng-repeat="slide in slides">
-        <div class="list">
-          <a ng-repeat="item in items" class="item item-thumbnail-right item-text-wrap" href="#">
-            <img ng-src="{{imgUrl+item.img}}" width="30" height="30" alt=""> 
-            <h3>{{::item.title}}</h3>
-            <p>{{::item.description | substring:item.description}}</p>
-          </a>
+  <ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)">
+    <ion-slide ng-repeat="slide in slides">
+      <ion-content>
+     <!--  slide.doRefresh() 包装了一层 -->
+        <ion-refresher pulling-text="下拉刷新" on-refresh="slide.doRefresh()"></ion-refresher>
+        <div class="list has-header">
+         <!--  slide.items 包装了一层 加上跳转到详情页的时候注意把标签本身的href熟悉去掉-->
+          <a ng-repeat="item in slide.items" class="item item-thumbnail-right item-text-wrap"  ng-click="goDetails(item)">
+            <img ng-src="{{imgUrl+item.img}}" width="30" height="30" alt="">
+            <h3>{{item.title}}</h3>
+            <p>{{item.description | substring:item.description}}</p>
+          </a> 
         </div>
-      </ion-slide>
-    </ion-slide-box>
-  </ion-content>
+        <!--  slide.loadMore() 包装了一层 -->
+        <ion-infinite-scroll ng-if="!slide.isload" on-infinite="slide.loadMore()" distance="1%">
+        </ion-infinite-scroll>
+      </ion-content>
+    </ion-slide>
+  </ion-slide-box>
   <ion-tabs class="tabs-striped tabs-top">
     <ion-tab ng-repeat="item in tabs" on-select="selectedTab($index)" title="{{item.name}}"></ion-tab>
   </ion-tabs>
-
 </ion-view>

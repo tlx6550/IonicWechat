@@ -1,22 +1,36 @@
 angular.module('starter.controller', [])
-.controller('Tab1Ctrl', function($scope,$rootScope,Tab1Service,$ionicSlideBoxDelegate,$ionicTabsDelegate) {
-  console.log('ok')
-  // var imgUrl = "";
-  $rootScope.imgUrl = imgUrl;
-  var classify = Tab1Service.getClassify();
+.controller('Tab1Ctrl', function($scope,$rootScope,$state,Tab1Service,$ionicSlideBoxDelegate,$ionicTabsDelegate) {
+
+  $rootScope.imgUrl = server.imgUrl;
+
+  var classify = Tab1Service.getClassify()
   $scope.slides = classify;
   $scope.tabs = classify;
 
-  var slideIndex = 0;
-  Tab1Service.getList(classify[0].url,1,20).then(function(response){
-    if (response.data.status) {
-      $scope.items = response.data.tngou;
-      console.log(response.data)
-    }
-  },function(error){
-    console.log(error)
+console.log('$state='+$state)
+  $scope.goDetails = function (item) {
+    $state.go('tab.tab1-details', { id: item.id,title:item.title });
+    $ionicTabsDelegate.showBar(false);
+}
+  $scope.$on('$ionicView.beforeEnter',function(){
+     console.log('已经成为活动视图');
+     $ionicTabsDelegate.showBar(true);
   })
 
+  var getData = function (index) {
+      var c = classify[index];
+      // 安卓平台不会自动触发加载
+      if (ionic.Platform.isAndroid()) {
+          c.doRefresh();
+      }  
+      // 初始化数据，和回调函数 
+      c.isload = false;
+      c.callback = function () {
+          $scope.$broadcast('scroll.refreshComplete');
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+      }
+  }
+  getData(0);
 
   //当中间页签slidebox改变的时候，让顶部tabs也改变
   $scope.slideChanged =  function(index){
@@ -32,6 +46,13 @@ angular.module('starter.controller', [])
         //滑动的索引和速度，此处省略了速度配置
         $ionicSlideBoxDelegate.slide(index)
     }
+})
+.controller('Tab1DetailsCtrl',function($scope,$stateParams,Tab1Service){
+  var id = $stateParams.id;
+  $scope.title = $stateParams.title;
+  Tab1Service.getDetails(id).success(function(response){
+    $scope.item =response;
+  })
 })
 .controller('Tab2Ctrl', function($scope) {})
 .controller('Tab3Ctrl', function($scope) {})

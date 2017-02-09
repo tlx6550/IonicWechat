@@ -31,3 +31,6 @@ body {
   list-style: decimal;
   margin: 10px 0px;
 }
+.message img {
+  width: 100%;
+}
