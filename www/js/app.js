@@ -29,6 +29,15 @@ angular.module('starter', ['ionic','starter.controller','starter.services','star
       }
     }
   })
+  .state('tab.tab2', {
+    url: '/tab2',
+    views: {
+      'tab2': {
+        templateUrl: 'templates/tab2.html',
+        controller: 'Tab2Ctrl'
+      }
+    }
+  })
   .state('tab.tab1-details',{
     url:'/tab/tab1-details/:id/:title',
     views:{
