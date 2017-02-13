@@ -118,6 +118,7 @@ angular.module('starter.controller', [])
   var title = $scope.title = $stateParams.title;
   //暂时不传人类型type查找详情
   Tab1Service.getDetails(id).success(function(response){
+    console.log('Tab1Service.getDetails==>response=>'+response)
     $scope.item =response;
   })
 })

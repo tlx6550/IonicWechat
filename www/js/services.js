@@ -12,7 +12,7 @@ angular.module('starter.services', [])
 .service('BaseService', function ($http) {
     this.loadMore = function ($this) {
       console.log("正在加载更多数据..." + $this.page);
-      $http.get($this.url + "?page=" + $this.page + "&rows=" + settings.rows).success(function (response) {
+      $http.jsonp($this.url + "?page=" + $this.page + "&rows=" + settings.rows + "&callback=JSON_CALLBACK").success(function (response) {
         console.log(response);
         if (response.tngou.length > 0) {
           $this.items = $this.items.concat(response.tngou);
@@ -26,7 +26,7 @@ angular.module('starter.services', [])
     }
     this.doRefresh = function ($this) {
       console.log("正在执行refresh操作(提取公共服务)...");
-       $http.get($this.url + "?page=1&rows=" + settings.rows).success(function (response) {
+       $http.jsonp($this.url + "?page=1&rows=" + settings.rows + "&callback=JSON_CALLBACK").success(function (response) {
          console.log(response);
          $this.page = 2;
          $this.items = response.tngou;
@@ -37,7 +37,11 @@ angular.module('starter.services', [])
   })
     .service('Tab1Service', function ($http,BaseService) {
      this.getDetails = function(id){
-        return $http.get(urls.info_show + id);
+      //改用jsonp方式请求api，解决跨域问题
+        // return $http.get(urls.info_show + id);
+        var url = server.domain+"/info/show?id=" + id + "&callback=JSON_CALLBACK";
+        // var url = urls.info_show + id ;
+          return $http.jsonp(url);
     }
     this.getClassify = function () {
       return [
@@ -89,7 +93,8 @@ angular.module('starter.services', [])
 .service('Tab2Service', function ($http) {
 var loadMore = function ($this) {
   console.log("正在加载更多数据..." + $this.page);
-  $http.get($this.url + "?page=" + $this.page + "&rows=" + settings.rows).success(function (response) {
+  //改用jsonp方式请求api，解决跨域问题
+  $http.jsonp($this.url + "?page=" + $this.page + "&rows=" + settings.rows + "&callback=JSON_CALLBACK").success(function (response) {
     console.log(response);
     if (response.list) {
       $this.items = $this.items.concat(response.list);
@@ -104,7 +109,7 @@ var loadMore = function ($this) {
 
 var doRefresh = function ($this) {
   console.log("正在执行refresh操作...");
-  $http.get($this.url + "?page=1&rows=" + settings.rows).success(function (response) {
+  $http.jsonp($this.url + "?page=1&rows=" + settings.rows + "&callback=JSON_CALLBACK").success(function (response) {
     console.log(response);
     if (response.list) {
       $this.page = 2;
