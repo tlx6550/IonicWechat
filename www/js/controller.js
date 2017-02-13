@@ -171,4 +171,105 @@ angular.module('starter.controller', [])
     $ionicTabsDelegate.showBar(false);
   }
 })
-.controller('AccountCtrl', function($scope) {});
+.controller('AccountCtrl', function($scope, $rootScope, $ionicPopup, $ionicModal, $state, $ionicTabsDelegate, $ionicSlideBoxDelegate, AccountService) {
+   $rootScope.isLogin = false;
+    $ionicModal.fromTemplateUrl('templates/tab-account-login.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        $scope.modal = modal;
+    });
+
+    $scope.loginData = {
+        name: '',
+        password: ''
+    }
+
+    $scope.regData = {
+        account: '',
+        email: '',
+        password: ''
+    }
+
+    $scope.user = {
+        account: "未登陆"
+    }
+    $scope.login = function () {
+        AccountService.login($scope.loginData.name, $scope.loginData.password, function (user) {
+            //account avatar domain  email  gender id integral isemail isphone status time title weiboid
+            $scope.user = user;
+            $rootScope.isLogin = true;
+            $scope.modal.hide();
+        });
+    }
+    $scope.doRefresh = function () {
+        AccountService.user(function (result) {
+            if (result.status == false) {
+                $ionicPopup.alert({
+                    title: '提示',
+                    template: result.msg
+                });
+            }
+            $scope.user = result;
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    }
+
+    $scope.goDetails = function () {
+        if ($rootScope.isLogin == false) {
+            $scope.modal.show();
+        } else {
+            $state.go('tab.account-details');
+            $ionicTabsDelegate.showBar(false);
+        }
+    }
+
+    $scope.$on('$ionicView.beforeEnter', function () {
+        console.log('已经成为活动视图');
+        var user = AccountService.getCacheUser();
+        if (user == undefined) {
+            $rootScope.isLogin = false;
+            $scope.user = {};
+        } else {
+            if (user.status != false) {
+                $rootScope.isLogin = true;
+                $scope.user = user;
+            }
+        }
+        $ionicTabsDelegate.showBar(true);
+    });
+
+
+    var accountTab = $ionicTabsDelegate.$getByHandle('accountTab');
+    var accountSlide = $ionicSlideBoxDelegate.$getByHandle('accountSlide');
+
+    $scope.register = function () {
+        AccountService.reg($scope.regData.account, $scope.regData.email, $scope.regData.password);
+    }
+
+    $scope.accountSelectedTab = function (index) {
+        accountSlide.slide(index);
+    }
+    $scope.accountSlideChanged = function (index) {
+        accountTab.select(accountSlide.currentIndex());
+    };
+})
+.controller('AccountDetailsCtrl', function ($scope, $rootScope, $ionicHistory, AccountService) {
+    // 注销登陆
+    $scope.logout = function () {
+        // 删除本地缓存
+        window.localStorage.removeItem(cache.user);
+        window.localStorage.removeItem(cache.token);
+        $rootScope.isLogin = false;
+
+        $ionicHistory.goBack();
+    }
+    $scope.user = AccountService.getCacheUser();
+    $scope.doRefresh = function () {
+        AccountService.user(function (user) {
+            $scope.user = user;
+            $rootScope.isLogin = true;
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    }
+});

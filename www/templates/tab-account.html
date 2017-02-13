@@ -1,0 +1,34 @@
+<ion-view view-title="我">
+<ion-content>
+    <ion-refresher pulling-text="下拉刷新" on-refresh="doRefresh()"></ion-refresher>
+    <ion-list>
+        <a class="item item-avatar item-icon-right" ng-click="goDetails()">
+            <img src="img/ionic.png" ng-src="{{user.avatar==undefind?'':imgUrl+user.avatar}}">
+            <h2><span>{{user.account==undefind?'未登陆':user.account}}</span></h2>
+            <p>积分：<span>{{user.integral}}</span></p>
+            <i class="icon ion-ios-arrow-right"></i>
+        </a> 
+        <ion-item class="item-divider item-gap">
+        </ion-item>
+        <div class="item item-icon-right">
+            <span>我的收藏</span>
+            <i class="icon ion-ios-arrow-right"></i>
+        </div>
+        <ion-item>
+            当前版本
+            <span class="item-note">1.0.0</span>
+            <!--<span class="item-note" ng-bind="appVersion"></span>-->
+        </ion-item>
+        <ion-item>
+            联系作者
+            <span class="item-note">微信订阅号：LeoLai</span>
+        </ion-item>
+<!--         <ion-item onclick="window.open('https://github.com/tlx6550/IonicWechat', '_blank', 'location=yes')">
+            此项目已开源
+        </ion-item> -->
+        <ion-item class="text-center">
+            <img class="user-img" src="img/LeoLai.jpg" width="60" height="60" /><br> @LeoLai
+        </ion-item>
+    </ion-list>
+</ion-content>
+</ion-view>

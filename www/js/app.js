@@ -92,6 +92,35 @@ angular.module('starter', ['ionic','starter.controller','starter.services','star
       }
     }
   })
+  .state('tab.account', {
+        url: '/account',
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/tab-account.html',
+            controller: 'AccountCtrl'
+          }
+        }
+      })
+      .state('tab.account-login', {
+        url: '/tab/account-login',
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/tab-account-login.html',
+            controller: 'AccountCtrl'
+          }
+        }
+})
+.state('tab.account-details', {
+        url: '/tab/account-details',
+        cache: false,
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/tab-account-details.html',
+            controller: 'AccountDetailsCtrl'
+          }
+        }
+      });
+
   // .state('tab.tab2', {
   //   url: '/tab2',
   //   views: {

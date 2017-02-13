@@ -34,3 +34,6 @@ body {
 .message img {
   width: 100%;
 }
+.user-img{
+  border-radius: 30px;
+}
