@@ -38,11 +38,56 @@ angular.module('starter', ['ionic','starter.controller','starter.services','star
       }
     }
   })
-  .state('tab.tab1-details',{
-    url:'/tab/tab1-details/:id/:title',
+   .state('tab.tab2-details', {
+        url: '/tab/tab2-details/:id/:title/:type',
+        views: {
+          'tab2': {
+            templateUrl: 'templates/tab2-details.html',
+            controller: 'Tab1DetailsCtrl'
+          }
+        }
+   })
+  .state('tab.tab1-details', {
+        url: '/tab/tab1-details/:id/:title/:type',
+        views: {
+          'tab1': {
+            templateUrl: 'templates/tab1-details.html',
+            controller: 'Tab1DetailsCtrl'
+          }
+        }
+  })
+  .state('tab.tab3', {
+        url: '/tab3',
+        views: {
+          'tab3': {
+            templateUrl: 'templates/tab3.html',
+            controller: 'Tab3Ctrl'
+          }
+        }
+      })
+  .state('tab.tab3-details', {
+    url: '/tab/tab3-details/:id/:title/:type',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/tab3-details.html',
+        controller: 'Tab1DetailsCtrl'
+      }
+    }
+  })
+  .state('tab.tab4',{
+    url:'/tab4',
     views:{
-      'tab1':{
-        templateUrl:'templates/tab1-details.html',
+      'tab4':{
+        templateUrl:'templates/tab4.html',
+        controller:'Tab4Ctrl'
+      }
+    }
+  })
+  .state('tab.tab4-details',{
+    url:'/tab/tab4-details/:id/:title/:type',
+    views:{
+      'tab4':{
+        templateUrl:'templates/tab4-details.html',
         controller:'Tab1DetailsCtrl'
       }
     }

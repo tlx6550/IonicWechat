@@ -8,7 +8,34 @@ angular.module('starter.services', [])
 // loadMore：上拉加载更多 。
 // doRefresh：下拉刷新。
 // callback：回掉函数，在loadMore和doRefresh操作完成都会调用该函数。
-    .service('Tab1Service', function ($http) {
+// //提取公共服务层BaseService
+.service('BaseService', function ($http) {
+    this.loadMore = function ($this) {
+      console.log("正在加载更多数据..." + $this.page);
+      $http.get($this.url + "?page=" + $this.page + "&rows=" + settings.rows).success(function (response) {
+        console.log(response);
+        if (response.tngou.length > 0) {
+          $this.items = $this.items.concat(response.tngou);
+          $this.page++;
+        } else {
+          console.log("没有数据了...")
+          $this.isload = true;
+        }
+        $this.callback();
+      });
+    }
+    this.doRefresh = function ($this) {
+      console.log("正在执行refresh操作(提取公共服务)...");
+       $http.get($this.url + "?page=1&rows=" + settings.rows).success(function (response) {
+         console.log(response);
+         $this.page = 2;
+         $this.items = response.tngou;
+         $this.callback();
+         $this.isload = false;
+       });
+    }
+  })
+    .service('Tab1Service', function ($http,BaseService) {
      this.getDetails = function(id){
         return $http.get(urls.info_show + id);
     }
@@ -19,22 +46,10 @@ angular.module('starter.services', [])
           page: 1, rows: 20,
           items: [],
           loadMore: function () {
-            _this = this;
-            console.log("正在加载更多数据..." + this.page);
-            $http.get(this.url + "?page=" + this.page + "&rows=" + settings.rows).success(function (response) {
-              _this.items = _this.items.concat(response.tngou);
-              _this.page++;
-              _this.callback();
-            });
+            BaseService.loadMore(this);
           },
           doRefresh: function () {
-            _this = this;
-            console.log("正在执行refresh操作...");
-            $http.get(this.url + "?page=1&rows=" + settings.rows).success(function (response) {
-              _this.page = 2;
-              _this.items = response.tngou;
-              _this.callback();
-            });
+            BaseService.doRefresh(this);
           },
           callback: function () {
             //回掉函数
@@ -45,22 +60,10 @@ angular.module('starter.services', [])
           page: 1, rows: 20,
           items: [],
           loadMore: function () {
-            $this = this;
-            console.log("正在加载更多数据..." + this.page);
-            $http.get(this.url + "?page=" + this.page + "&rows=" + settings.rows).success(function (response) {
-              $this.items = $this.items.concat(response.tngou);
-              $this.page++;
-              $this.callback();
-            });
+            BaseService.loadMore(this);
           },
           doRefresh: function () {
-            $this = this;
-            console.log("正在执行refresh操作...");
-            $http.get(this.url + "?page=1&rows=" + settings.rows).success(function (response) {
-              $this.page = 2;
-              $this.items = response.tngou
-              $this.callback();
-            });
+            BaseService.doRefresh(this);
           },
           callback: function () {
             //回掉函数
@@ -70,23 +73,11 @@ angular.module('starter.services', [])
           name: '健康问答', isload: true, url: server.domain + '/ask/list',
           page: 1, rows: 20,
           items: [],
-          loadMore: function () {
-            $this = this;
-            console.log("正在加载更多数据..." + this.page);
-            $http.get(this.url + "?page=" + this.page + "&rows=" + settings.rows).success(function (response) {
-              $this.items = $this.items.concat(response.tngou);
-              $this.page++;
-              $this.callback();
-            });
+           loadMore: function () {
+            BaseService.loadMore(this);
           },
           doRefresh: function () {
-            $this = this;
-            console.log("正在执行refresh操作...");
-            $http.get(this.url + "?page=1&rows=" + settings.rows).success(function (response) {
-              $this.page = 2;
-              $this.items = response.tngou
-              $this.callback();
-            });
+            BaseService.doRefresh(this);
           },
           callback: function () {
             //回掉函数
@@ -183,5 +174,90 @@ this.getTab2Menu = function () {
     }
   ]
 }
-
+})
+.service('Tab3Service', function (BaseService) {
+this.getTab3Menu = function () {
+  return [
+    {
+      name: '社会热点', isload: true, url: server.domain + '/top/list', type: 'top',
+      page: 1, rows: 20,
+      items: [],
+      loadMore: function () {
+        BaseService.loadMore(this);
+      },
+      doRefresh: function () {
+        BaseService.doRefresh(this);
+      },
+      callback: function () {
+        //回掉函数
+      }
+    },
+    {
+      name: '健康菜谱', isload: true, url: server.domain + '/cook/list', type: 'cook',
+      page: 1, rows: 20,
+      items: [],
+      loadMore: function () {
+        BaseService.loadMore(this);
+      },
+      doRefresh: function () {
+        BaseService.doRefresh(this);
+      },
+      callback: function () {
+        //回掉函数
+      }
+    },
+    {
+      name: '健康食品', isload: true, url: server.domain + '/food/list', type: 'food',
+      page: 1, rows: 20,
+      items: [],
+      loadMore: function () {
+        BaseService.loadMore(this);
+      },
+      doRefresh: function () {
+        BaseService.doRefresh(this);
+      },
+      callback: function () {
+        //回掉函数
+      }
+    }
+  ]
+}
+})
+.service('Tab4Service', function ($http, BaseService) { 
+    this.getTab4Menu = function () {
+      return [
+        {
+          name: '农业新闻', isload: true, url: server.domain + '/news/list', type: 'news',
+          page: 1, rows: 20,
+          items: [],
+          loadMore: function () {
+            BaseService.loadMore(this);
+          },
+          doRefresh: function () {
+            BaseService.doRefresh(this);
+          },
+          callback: function () {
+            //回掉函数
+          }
+        },
+        {
+          name: '农业技术', isload: true, url: server.domain + '/tech/list', type: 'tech',
+          page: 1, rows: 20,
+          items: [],
+          loadMore: function () {
+            BaseService.loadMore(this);
+          },
+          doRefresh: function () {
+            BaseService.doRefresh(this);
+          },
+          callback: function () {
+            //回掉函数
+          }
+        }
+      ]
+    } 
+    this.getDetails = function (type, id) {
+      var url = server.domain + "/" + type + "/show?id=" + id + "&callback=JSON_CALLBACK";
+      return $http.jsonp(url);
+    }
 })

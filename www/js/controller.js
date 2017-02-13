@@ -113,8 +113,10 @@ angular.module('starter.controller', [])
   }
 })
 .controller('Tab1DetailsCtrl',function($scope,$stateParams,Tab1Service){
-  var id = $stateParams.id;
-  $scope.title = $stateParams.title;
+  var id    = $stateParams.id;
+  var type  = $stateParams.type;
+  var title = $scope.title = $stateParams.title;
+  //暂时不传人类型type查找详情
   Tab1Service.getDetails(id).success(function(response){
     $scope.item =response;
   })
@@ -135,6 +137,37 @@ angular.module('starter.controller', [])
             $ionicTabsDelegate.showBar(false);
         }
 })
-.controller('Tab3Ctrl', function($scope) {})
-.controller('Tab4Ctrl', function($scope) {})
+.controller('Tab3Ctrl', function ($scope, Tab3Service, $controller, $state, $ionicTabsDelegate) {
+    $scope.classify = Tab3Service.getTab3Menu()
+    $scope.currentTabId = "tab3";
+    $controller('BaseCtrl', { $scope: $scope });
+    $scope.goDetails = function (item, type) {
+        var title = "", name = "";
+        if (item.title) {
+            title += item.title;
+        }
+        if (item.name) {
+            title += item.name;
+        }
+        console.log(item);
+        $state.go('tab.tab3-details', { id: item.id, title: title, type: type })
+        $ionicTabsDelegate.showBar(false);
+    }
+})
+.controller('Tab4Ctrl', function($scope, Tab4Service, $controller, $state, $ionicTabsDelegate) {
+  $scope.classify = Tab4Service.getTab4Menu();
+  $scope.currentTabId = "tab4";
+  $controller('BaseCtrl',{$scope:$scope});
+  $scope.goDetails = function(item,type){
+    var title = "".name="";
+    if (item.title) {
+      title+=item.title;
+    } if(item.name) {
+       title += item.name;
+    }
+    console.log('item='+item);
+    $state.go('tab.tab4-details',{id:item.id,title:title,type:type});
+    $ionicTabsDelegate.showBar(false);
+  }
+})
 .controller('AccountCtrl', function($scope) {});
