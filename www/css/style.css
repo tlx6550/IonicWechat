@@ -37,3 +37,10 @@ body {
 .user-img{
   border-radius: 30px;
 }
+.bottom-right {
+    position: absolute;
+    bottom: 5px; 
+    right: 8px;
+    opacity: 0.9;
+    z-index: 10;
+}

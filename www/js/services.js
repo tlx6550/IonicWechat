@@ -36,17 +36,19 @@ angular.module('starter.services', [])
     }
   })
     .service('Tab1Service', function ($http,BaseService) {
-     this.getDetails = function(id){
+     this.getDetails = function(type,id){
       //改用jsonp方式请求api，解决跨域问题
         // return $http.get(urls.info_show + id);
-        var url = server.domain+"/info/show?id=" + id + "&callback=JSON_CALLBACK";
+        var url = server.domain + "/" + type +"/show?id=" + id + "&callback=JSON_CALLBACK";
         // var url = urls.info_show + id ;
           return $http.jsonp(url);
     }
     this.getClassify = function () {
       return [
         {
-          name: '健康资讯', isload: true, url: server.domain + '/info/list',
+          name: '健康资讯', isload: true,
+          url: server.domain + '/info/list',
+          type: 'info',
           page: 1, rows: 20,
           items: [],
           loadMore: function () {
@@ -60,7 +62,7 @@ angular.module('starter.services', [])
           }
         },
         {
-          name: '健康知识', isload: true, url: server.domain + '/lore/list',
+          name: '健康知识', isload: true, url: server.domain + '/lore/list', type: 'lore',
           page: 1, rows: 20,
           items: [],
           loadMore: function () {
@@ -74,7 +76,7 @@ angular.module('starter.services', [])
           }
         },
         {
-          name: '健康问答', isload: true, url: server.domain + '/ask/list',
+          name: '健康问答', isload: true, url: server.domain + '/ask/list', type: 'ask',
           page: 1, rows: 20,
           items: [],
            loadMore: function () {
@@ -310,20 +312,23 @@ this.reg = function (account, email, password) {
   })
 }
 
-//获取收藏列表
-this.getFavorites = function (page) {
-  var url = urls.favorite + "?page=" + page + "&rows" + settings.rows + "&access_token=" + window.localStorage[cache.token];
-  return $http.jsonp(url);
-}
-//删除收藏
-this.deleteFav = function (id, type) {
-  var url = urls.favoriteDelete + "?id=" + id + "&type=" + type + "&access_token=" + window.localStorage[cache.token]
-  return $http.jsonp(url);
-}
-//添加收藏
-this.addFav = function (id, type, title) {
-  var url = urls.favoriteAdd + "?id=" + id + "&type=" + type + "&title=" + title + "&access_token=" + window.localStorage[cache.token]
-  return $http.jsonp(url);
-}
-
 })
+  .service('FavService', function ($http) {
+    //获取收藏列表
+    this.getFavorites = function (page) {
+      var url = urls.favorite + "&page=" + page + "&rows" + settings.rows + "&access_token=" + window.localStorage[cache.token];
+      return $http.jsonp(url);
+    }
+    //删除收藏
+    this.deleteFav = function (id, type) {
+      var url = urls.favoriteDelete + "&id=" + id + "&type=" + type + "&access_token=" + window.localStorage[cache.token]
+      return $http.jsonp(url);
+    }
+    //添加收藏
+    this.addFav = function (id, type, title) {
+      var url = urls.favoriteAdd + "&id=" + id + "&type=" + type + "&title=" + title + "&access_token=" + window.localStorage[cache.token]
+      return $http.jsonp(url);
+    }
+  })
+
+  

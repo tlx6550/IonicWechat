@@ -119,8 +119,25 @@ angular.module('starter', ['ionic','starter.controller','starter.services','star
             controller: 'AccountDetailsCtrl'
           }
         }
-      });
-
+})
+.state('tab.account-fav', {
+      url: '/tab/account-fav',
+      views: {
+        'tab-account': {
+          templateUrl: 'templates/tab-account-fav.html',
+          controller: 'FavCtrl'
+        }
+      }
+    })
+.state('tab.tab-account', {
+  url: '/tab/tab4-account/:id/:title/:type',
+  views: {
+    'tab-account': {
+      templateUrl: 'templates/tab2-details.html',
+      controller: 'Tab1DetailsCtrl'
+    }
+  }
+})
   // .state('tab.tab2', {
   //   url: '/tab2',
   //   views: {
