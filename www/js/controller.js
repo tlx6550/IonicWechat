@@ -116,7 +116,7 @@ angular.module('starter.controller', [])
   var id    = $stateParams.id;
   var type  = $stateParams.type;
   var title = $scope.title = $stateParams.title;
-  //暂时不传人类型type查找详情
+
   Tab1Service.getDetails(type,id).success(function(response){
     console.log('Tab1Service.getDetails==>response=>'+response)
     $scope.item =response;
@@ -246,6 +246,7 @@ angular.module('starter.controller', [])
             $scope.user = user;
             $rootScope.isLogin = true;
             $scope.modal.hide();
+            //
         });
     }
     $scope.doRefresh = function () {

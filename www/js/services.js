@@ -35,13 +35,12 @@ angular.module('starter.services', [])
        });
     }
   })
-    .service('Tab1Service', function ($http,BaseService) {
+.service('Tab1Service', function ($http,BaseService) {
      this.getDetails = function(type,id){
       //改用jsonp方式请求api，解决跨域问题
         // return $http.get(urls.info_show + id);
         var url = server.domain + "/" + type +"/show?id=" + id + "&callback=JSON_CALLBACK";
-        // var url = urls.info_show + id ;
-          return $http.jsonp(url);
+        return $http.jsonp(url);
     }
     this.getClassify = function () {
       return [
@@ -62,7 +61,10 @@ angular.module('starter.services', [])
           }
         },
         {
-          name: '健康知识', isload: true, url: server.domain + '/lore/list', type: 'lore',
+          name: '健康知识',
+          isload: true, 
+          url: server.domain + '/lore/list', 
+          type: 'lore',
           page: 1, rows: 20,
           items: [],
           loadMore: function () {
@@ -76,7 +78,10 @@ angular.module('starter.services', [])
           }
         },
         {
-          name: '健康问答', isload: true, url: server.domain + '/ask/list', type: 'ask',
+          name: '健康问答', 
+          isload: true, 
+          url: server.domain + '/ask/list', 
+          type: 'ask',
           page: 1, rows: 20,
           items: [],
            loadMore: function () {
@@ -268,7 +273,7 @@ this.getTab3Menu = function () {
       return $http.jsonp(url);
     }
 })
-.service('AccountService',function($http){
+.service('AccountService',function($state,$http){
   var $this = this;
   //获取缓存用户信息
   this.getCacheUser = function(){
@@ -285,6 +290,7 @@ this.getTab3Menu = function () {
         $this.user(callback);
       } else {
         alert("用户名和密码不匹配！");
+        $state.go('tab.account-login')
       }
     })
   };
@@ -307,7 +313,8 @@ this.reg = function (account, email, password) {
       alert(response.msg);
     } else {
       window.localStorage[cache.token] = response.access_token;
-      alert('注册成功，请先登录')
+      alert('注册成功');
+      $state.go('tab.account-login');
     }
   })
 }
