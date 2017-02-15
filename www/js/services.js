@@ -15,6 +15,7 @@ angular.module('starter.services', [])
       $http.jsonp($this.url + "?page=" + $this.page + "&rows=" + settings.rows + "&callback=JSON_CALLBACK").success(function (response) {
         console.log(response);
         if (response.tngou.length > 0) {
+          //concat() 方法用于连接两个或多个数组。
           $this.items = $this.items.concat(response.tngou);
           $this.page++;
         } else {

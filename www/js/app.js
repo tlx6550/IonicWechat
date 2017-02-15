@@ -12,8 +12,10 @@ angular.module('starter', ['ionic','starter.controller','starter.services','star
         }
       });
     }) 
-  .config(function($stateProvider, $urlRouterProvider) {
-
+  .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+    //解决android tabs的布局调到底部，和iOS一致
+    $ionicConfigProvider.tabs.position('bottom');
+    
    $stateProvider
    .state('tab', {
     url: '/tab',
